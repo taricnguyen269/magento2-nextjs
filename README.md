@@ -44,52 +44,6 @@ Seamless Add-to-Cart and Checkout Processes:
 Comprehensive Order History Tracking:
 
 - Provide users with visibility into their order history, allowing them to track past purchases and monitor order statuses effectively.
-## Demo
-
-https://demo.wedowebapps.com/
-
-
-## Run Locally
-
-Clone the project
-
-```bash
-  git clone https://github.com/wedowebapps/magento2-next-ssr-pwa.git
-```
-
-Go to the project directory
-
-```bash
-  cd magento2-next-ssr-pwa
-```
-
-Install dependencies
-
-```bash
-  npm install
-```
-
-Start the server
-
-```bash
-  npm run start
-```
-
-
-## Authors
-
-- [Wedowebapps](https://www.wedowebapps.com)
-
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-
-## Acknowledgements
-
- - Thanks to [Magento](https://developer.adobe.com/commerce/docs/) for providing a robust backend solution.
- - Special appreciation to the [Next.js](https://nextjs.org/) team for the powerful frontend framework.
 
 ## Badges
 
@@ -118,11 +72,4 @@ Start the server
 ![Magento 2](https://img.shields.io/badge/Magento-2.4.0-FF3366?style=flat&logo=magento&logoColor=white)
 
 ![Code Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen)
-
-
-
-
-## Support
-
-For support, [Wedowebapps Team](https://www.wedowebapps.com)
 
