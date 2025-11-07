@@ -18,7 +18,9 @@ function makeClient() {
 
   const uri = typeof window !== "undefined"
     ? new URL("/graphql", location.href).href
-    : new URL("/graphql", process.env.GRAPHQL_URL).href;
+    : process.env.GRAPHQL_URL
+      ? new URL("/graphql", process.env.GRAPHQL_URL).href
+      : "/graphql";
 
   const httpLink = new HttpLink({
     headers: { Authorization: token ? `Bearer ${token}` : "" },
