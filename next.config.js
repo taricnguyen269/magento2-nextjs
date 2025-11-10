@@ -141,19 +141,13 @@ const withPWA = require("next-pwa")({
       handler: "CacheFirst",
       options: {
         cacheName: "images", // IMAGES_CACHE_NAME from pwa-arielbath
-        plugins: [
-          {
-            cacheableResponse: {
-              statuses: [0, 200], // Cache opaque responses (CORS) and successful responses
-            },
-          },
-          {
-            expiration: {
-              maxEntries: 120, // MAX_NUM_OF_IMAGES_TO_CACHE from pwa-arielbath
-              maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days (THIRTY_DAYS from pwa-arielbath)
-            },
-          },
-        ],
+        expiration: {
+          maxEntries: 120, // MAX_NUM_OF_IMAGES_TO_CACHE from pwa-arielbath
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days (THIRTY_DAYS from pwa-arielbath)
+        },
+        cacheableResponse: {
+          statuses: [0, 200], // Cache opaque responses (CORS) and successful responses
+        },
       },
     },
     {
@@ -163,19 +157,13 @@ const withPWA = require("next-pwa")({
       handler: "CacheFirst",
       options: {
         cacheName: "next-image",
-        plugins: [
-          {
-            cacheableResponse: {
-              statuses: [0, 200], // Cache opaque responses (CORS) and successful responses
-            },
-          },
-          {
-            expiration: {
-              maxEntries: 120, // MAX_NUM_OF_IMAGES_TO_CACHE from pwa-arielbath
-              maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days (THIRTY_DAYS from pwa-arielbath)
-            },
-          },
-        ],
+        expiration: {
+          maxEntries: 120, // MAX_NUM_OF_IMAGES_TO_CACHE from pwa-arielbath
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days (THIRTY_DAYS from pwa-arielbath)
+        },
+        cacheableResponse: {
+          statuses: [0, 200], // Cache opaque responses (CORS) and successful responses
+        },
       },
     },
   ],
