@@ -23,11 +23,6 @@ export const Footer: FC<FooterProps> = () => {
       </Link>
       <nav className="text-white">
         <header className="footer-title">Categories</header>
-        {footerMenu?.map((route, i) => (
-          <Link key={i} href={`/${route.url}`} className="link link-hover">
-            {route?.title}
-          </Link>
-        ))}
       </nav>
       <Newsletter />
     </footer>
