@@ -97,7 +97,6 @@ query getProducts($url_key: String) {
           label
           position
           use_default
-          default_option_value
           attribute_code
           values {
             value_index

@@ -66,7 +66,7 @@ export const ProductListContainer: FC<ProductListContainerProps> = ({
         {ssrData?.productSidebarFilter && (
           <FilterSidebar
             handleChange={handleChange}
-            productSidebarFilter={ssrData.productSidebarFilter.products}
+            productSidebarFilter={ssrData.productSidebarFilter}
             searchParams={searchParams}
             handleRemoveFilter={handleRemoveFilter}
           />

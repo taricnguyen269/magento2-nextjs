@@ -1,13 +1,13 @@
 "use client";
 import { GlobalSearch, HeartIcon, UserDrawer } from "@/components";
 import { useAppContext, useCartContext } from "@/context";
-import { HeaderAPIResponse } from "@/types";
+import { HeaderAPIResponse, Menu } from "@/types";
 import { Queries } from "@/utils/graphql";
 import { useQuery } from "@apollo/client";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 
 export interface HeaderProps {}
 
@@ -20,7 +20,55 @@ export const Header: FC<HeaderProps> = () => {
 
   const { data: headerData } = useQuery<HeaderAPIResponse>(GET_HEADER_CONTENT);
 
-  const routesMap = headerData?.getHeaderContent;
+  const shouldRenderMegaMenuItem = (category: Menu): boolean => {
+    return category.include_in_menu === 1;
+  };
+
+  /**
+   * Recursively map data returned by GraphQL query.
+   */
+  const processData = useCallback(
+    (
+      category: Menu,
+      path: string[] = [],
+      isRoot = true
+    ): Menu | undefined => {
+      if (!category || category.include_in_menu !== 1) {
+        return undefined;
+      }
+
+      const megaMenuCategory: Menu = Object.assign(
+        {},
+        category
+      );
+
+      if (!isRoot) {
+        megaMenuCategory.path = [...path, category.uid];
+      }
+
+      megaMenuCategory.isActive = false;
+
+      if (megaMenuCategory.children && Array.isArray(megaMenuCategory.children)) {
+        megaMenuCategory.children = [...megaMenuCategory.children]
+          .filter(category => shouldRenderMegaMenuItem(category))
+          .sort((a, b) => ((a.position ?? 0) > (b.position ?? 0) ? 1 : -1))
+          .map(child =>
+            processData(child, megaMenuCategory.path, false)
+          )
+          .filter((child): child is Menu => child !== undefined);
+      }
+
+      return megaMenuCategory;
+    },
+    []
+  );
+
+  const routesMap = headerData?.categoryList?.[0]?.children
+    ? headerData.categoryList[0].children
+        .filter(child => shouldRenderMegaMenuItem(child))
+        .map(child => processData(child))
+        .filter((child): child is Menu => child !== undefined)
+    : [];
 
   return (
     <div className="navbar py-4 px-4 bg-primary-500 text-base-content fixed z-20">
@@ -52,19 +100,19 @@ export const Header: FC<HeaderProps> = () => {
           >
             {routesMap?.map((route, i) => (
               <li key={i}>
-                <Link href={`/${route?.url}`}>{route?.title}</Link>
+                <Link href={`/${route?.url_path || ""}`}>{route?.name || ""}</Link>
               </li>
             ))}
           </ul>
         </div>
         <Link href={`/`} className="btn btn-ghost text-xl text-white">
-          Wedo Commerce
+          Ariel Bath
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal text-white">
           {routesMap?.map((route, i) => {
-            const currentPath = route?.url.split("?")[0];
+            const currentPath = route?.url_path?.split("?")[0] || "";
 
             return (
               <li key={i}>
@@ -72,9 +120,9 @@ export const Header: FC<HeaderProps> = () => {
                   className={clsx("", [
                     { active: `/${currentPath}` === `${pathname}` },
                   ])}
-                  href={`/${route?.url}`}
+                  href={`/${route?.url_path || ""}`}
                 >
-                  {route?.title}
+                  {route?.name || ""}
                 </Link>
               </li>
             );

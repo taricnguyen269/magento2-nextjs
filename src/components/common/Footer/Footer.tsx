@@ -1,6 +1,6 @@
 "use client";
 import { FC } from "react";
-import { Newsletter, OwnerLogo } from "@/components";
+import { Newsletter } from "@/components";
 import Link from "next/link";
 import { Queries } from "@/utils/graphql";
 import { useQuery } from "@apollo/client";
@@ -17,26 +17,10 @@ export const Footer: FC<FooterProps> = () => {
 
   return (
     <footer className="footer p-10 bg-primary-500 text-base-content">
-      <Link href={"https://www.wedowebapps.com/"} target="_blank">
-        <OwnerLogo />
-        <span className="text-white">WEDOWEBAPPS PTY LTD</span>
-        <span className="text-white">Copyright © 2024</span>
+      <Link href={"/"}>
+        <span className="text-white">ARIEL BATH</span>
+        <span className="text-white">Copyright © 2025</span>
       </Link>
-      <nav className="text-white">
-        <header className="footer-title">Connect with us</header>
-        <Link href={""} className="link link-hover">
-          Email
-        </Link>
-        <Link href={""} className="link link-hover">
-          Facebook
-        </Link>
-        <Link href={""} className="link link-hover">
-          Whatsapp
-        </Link>
-        <Link href={""} className="link link-hover">
-          Skype
-        </Link>
-      </nav>
       <nav className="text-white">
         <header className="footer-title">Categories</header>
         {footerMenu?.map((route, i) => (

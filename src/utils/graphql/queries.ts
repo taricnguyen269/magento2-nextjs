@@ -18,6 +18,7 @@ import GET_ORDER_HISTORY from "@/graphql/query/get-customer-orders.graphql";
 import GET_CUSTOMER_WISHLIST from "@/graphql/query/get-customer-wishlist.graphql";
 import GET_HEADER_CONTENT from "@/graphql/query/get-header-content.graphql";
 import GET_FOOTER_CONTENT from "@/graphql/query/get-footer-content.graphql";
+import RESOLVE_URL from "@/graphql/query/resolve-url.graphql";
 
 export const Queries = {
   HOME_BANNER_QUERY,
@@ -40,4 +41,8 @@ export const Queries = {
   GET_CUSTOMER_WISHLIST,
   GET_HEADER_CONTENT,
   GET_FOOTER_CONTENT,
+  RESOLVE_URL,
 };
+
+// Export RESOLVE_URL directly for convenience
+export { RESOLVE_URL };

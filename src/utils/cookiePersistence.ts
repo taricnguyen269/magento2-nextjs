@@ -38,7 +38,7 @@ class NamespacedCookie {
 }
 
 class CookiePersistence {
-  static KEY = "WEDOCOMMERCE_COOKIE_PERSISTENCE";
+  static KEY = "ARIELBATH_COOKIE_PERSISTENCE";
   cookie: NamespacedCookie;
 
   constructor() {

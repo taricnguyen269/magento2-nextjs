@@ -23,13 +23,25 @@ export interface HotSalesProduct {
   page_info: PageInfo;
 }
 
+export interface categoryList {
+  uid: string;
+  name: string;
+  children?: Menu[];
+}
+
 export interface Menu {
-  url: string;
-  title: string;
+  uid: string;
+  include_in_menu?: number;
+  name: string;
+  position?: number;
+  url_path?: string;
+  children?: Menu[];
+  path?: string[];
+  isActive?: boolean;
 }
 
 export interface HeaderAPIResponse {
-  getHeaderContent: Menu[];
+  categoryList: categoryList[];
 }
 export interface FooterAPIResponse {
   getFooterContent: Menu[];

@@ -7,7 +7,7 @@ export function proxy(request: NextRequest) {
     "address-book",
     "order-history",
   ];
-  let verify = request.cookies.get("WEDOCOMMERCE_COOKIE_PERSISTENCE__auth_token");
+  let verify = request.cookies.get("ARIELBATH_COOKIE_PERSISTENCE__auth_token");
   let url = request.url;
 
   const currentURL = url.split("/")[3];

@@ -42,7 +42,6 @@ export interface ConfigurableOptions {
   label: string;
   position: number;
   use_default: boolean;
-  default_option_value: string;
   attribute_code: string;
   values: ConfigurableOptionsValue[];
   product_id: number;

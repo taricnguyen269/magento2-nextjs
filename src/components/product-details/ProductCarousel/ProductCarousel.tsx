@@ -13,7 +13,7 @@ export const ProductCarousel: FC<ProductCarouselProps> = () => {
   const slideData = data?.length
     ? data
     : Array(5).fill({
-        file: "https://wedocommerce.wedowebapps.com/media/catalog/product/cache/d5fbc25b16b300f518d253a3906a8c45/i/s/istockphoto-1200991853-2048x2048_2.jp",
+        file: "https://cdn.arielbath.com/media/catalog/product/A/0/A072DCQRVOWOA_productimage.jpg",
         label: "product-image",
       });
 

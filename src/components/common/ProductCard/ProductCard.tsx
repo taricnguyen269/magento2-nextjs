@@ -1,5 +1,5 @@
 "use client";
-import { DeleteFavorite, DeleteIcon, FavoriteToggle } from "@/components";
+import { DeleteFavorite, FavoriteToggle } from "@/components";
 import { FetchWishlist, Product } from "@/types";
 import { Queries } from "@/utils/graphql";
 import { currencyFormatter } from "@/utils/helper";
@@ -58,7 +58,7 @@ export const ProductCard: FC<ProductCardProps> = ({
       <div className={clsx("card card-compact bg-base-100 shadow-xl", [])}>
         <figure
           role="button"
-          onClick={() => router.push(`/products/${product?.url_key || ""}`)}
+          onClick={() => router.push(`/${product?.url_key || ""}`)}
         >
           <Image
             className="hover:scale-110 duration-500 h-72 object-contain"
@@ -72,7 +72,7 @@ export const ProductCard: FC<ProductCardProps> = ({
           <div className="flex flex-col gap-2">
             <span
               role="button"
-              onClick={() => router.push(`/products/${product?.url_key || ""}`)}
+              onClick={() => router.push(`/${product?.url_key || ""}`)}
               className="text-primary-500 font-medium text-lg line-clamp-1"
             >
               {product?.name ?? "shoes"}

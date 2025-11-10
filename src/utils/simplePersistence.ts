@@ -32,7 +32,7 @@ class NamespacedLocalStorage {
 }
 
 class BrowserPersistence {
-  static KEY = "WEDOCOMMERCE_BROWSER_PERSISTENCE";
+  static KEY = "ARIELBATH_BROWSER_PERSISTENCE";
   storage: NamespacedLocalStorage;
 
   constructor(localStorage = globalThis.localStorage || storageMock) {

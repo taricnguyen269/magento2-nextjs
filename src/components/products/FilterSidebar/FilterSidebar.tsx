@@ -97,8 +97,8 @@ export const FilterSidebar: FC<FilterSidebarProps> = ({
             </div>
           )}
 
-          {productSidebarFilter.aggregations
-            .filter((x) => x.attribute_code !== "category_uid")
+          {productSidebarFilter?.aggregations
+            ?.filter((x) => x.attribute_code !== "category_uid")
             .map((filter, index) => (
               <FilterComponent
                 handleChange={handleChange}

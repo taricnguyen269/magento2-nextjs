@@ -17,11 +17,16 @@ export const ColorConfiguration: FC<ColorConfigurationProps> = ({
   handleConfiguration,
 }) => {
   useEffect(() => {
-    if (configureOption) {
-      handleConfiguration({
-        key: configureOption?.attribute_code,
-        value: configureOption?.default_option_value,
-      });
+    if (configureOption && configureOption.values && configureOption.values.length > 0) {
+      // Use the first value as default
+      const defaultValue = configureOption.values[0]?.uid;
+      
+      if (defaultValue) {
+        handleConfiguration({
+          key: configureOption?.attribute_code,
+          value: defaultValue,
+        });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [configureOption]);

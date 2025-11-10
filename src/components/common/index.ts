@@ -32,3 +32,4 @@ export * from "./Spinner";
 export * from "./EmptyCart";
 export * from "./NotFound";
 export * from "./PageNotFound";
+export * from "./ServiceWorkerRegistration";

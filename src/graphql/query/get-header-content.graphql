@@ -1,6 +1,33 @@
-query GetHeaderContent {
-  getHeaderContent {
-    url
-    title
+query getMegaMenu {
+  # eslint-disable-next-line @graphql-eslint/require-id-when-available
+  categoryList {
+    uid
+    name
+    # eslint-disable-next-line @graphql-eslint/require-id-when-available
+    children {
+      uid
+      include_in_menu
+      name
+      position
+      megamenu_type
+      megamenu_right_content
+      url_path
+      # eslint-disable-next-line @graphql-eslint/require-id-when-available
+      children {
+        uid
+        include_in_menu
+        name
+        position
+        url_path
+        # eslint-disable-next-line @graphql-eslint/require-id-when-available
+        children {
+          uid
+          include_in_menu
+          name
+          position
+          url_path
+        }
+      }
+    }
   }
 }
