@@ -102,72 +102,60 @@ const nextConfig = {
 
 const withPWA = require("next-pwa")({
   dest: "public", // Destination directory for the PWA files
-  disable: process.env.NODE_ENV === "development", // Disable PWA in development mode
-  register: false, // We'll register manually via registerSW component
-  skipWaiting: true, // Skip waiting for service worker activation
-  sw: "sw.js", // Service worker filename
+  disable: process.env.NODE_ENV === "development",
+  register: false,
+  skipWaiting: true,
+  sw: "sw.js",
   runtimeCaching: [
     {
-      // Exclude GraphQL requests from caching - always fetch from network
-      // This route should be registered first to catch GraphQL requests before other routes
-      urlPattern: ({ url }) => {
-        // Match any request to /graphql endpoint (with or without query params)
-        return url.pathname === '/graphql' || url.pathname.startsWith('/graphql');
-      },
-      handler: "NetworkOnly",
-      options: {
-        cacheName: "graphql-no-cache",
-        networkTimeoutSeconds: 10,
-      },
+      // Cache robots.txt, favicon.ico, and manifest.json
+      // Similar to pwa-arielbath registerRoutes.js - uses StaleWhileRevalidate
+      urlPattern: /(robots\.txt|favicon\.ico|manifest\.json)/,
+      handler: "StaleWhileRevalidate"
     },
     {
-      // Cache product images from CDN and other image sources
-      // Matches images with common extensions: png, gif, jpg, jpeg, svg, webp
       urlPattern: ({ url, request }) => {
-        // Match images from CDN domains
-        const isCDNImage =
-          url.hostname.includes('cdn.arielbath.com') ||
-          url.hostname.includes('cdn-stg.arielbath.com') ||
-          url.hostname.includes('arielbath.com');
-
-        // Match image files by extension
-        const isImageFile = /\.(?:png|gif|jpg|jpeg|svg|webp)$/i.test(url.pathname);
-
-        // Match by request destination (for images loaded via <img> tag)
-        const isImageRequest = request.destination === 'image';
-
-        return isCDNImage || isImageFile || isImageRequest;
+        const currentOrigin = typeof self !== "undefined" && self.location ? self.location.origin : url.origin;
+        return url.origin === currentOrigin && request.destination === 'document';
       },
+      handler: "NetworkFirst",
+      options: {
+        cacheName: "html-cache",
+      },
+    },
+    {
+      urlPattern: /\.js$/i,
+      handler: "CacheFirst"
+    },
+    {
+      urlPattern: /\.(?:png|gif|jpg|jpeg|svg)$/i,
       handler: "CacheFirst",
       options: {
-        cacheName: "images", // IMAGES_CACHE_NAME from pwa-arielbath
+        cacheName: "images",
         expiration: {
-          maxEntries: 120, // MAX_NUM_OF_IMAGES_TO_CACHE from pwa-arielbath
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days (THIRTY_DAYS from pwa-arielbath)
+          maxEntries: 120, // MAX_NUM_OF_IMAGES_TO_CACHE
+          maxAgeSeconds: 3 * 24 * 60 * 60, // 3 days
         },
         cacheableResponse: {
-          statuses: [0, 200], // Cache opaque responses (CORS) and successful responses
+          statuses: [0, 200],
         },
       },
     },
     {
-      // Cache Next.js optimized images
-      // Similar to pwa-arielbath image caching strategy - uses CacheFirst
-      urlPattern: /\/_next\/image\?url=.+$/i,
+      urlPattern: /\.(?:woff2?|eot|ttf|otf)$/i,
       handler: "CacheFirst",
       options: {
-        cacheName: "next-image",
+        cacheName: "fonts-cache",
         expiration: {
-          maxEntries: 120, // MAX_NUM_OF_IMAGES_TO_CACHE from pwa-arielbath
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days (THIRTY_DAYS from pwa-arielbath)
+          maxEntries: 10, // Limit to 10 font files in cache
+          maxAgeSeconds: 60 * 60 * 24 * 365, // Cache for 1 year
         },
         cacheableResponse: {
-          statuses: [0, 200], // Cache opaque responses (CORS) and successful responses
+          statuses: [0, 200],
         },
       },
-    },
-  ],
-  buildExcludes: [/\/graphql/], // Exclude GraphQL from precache manifest
+    }
+  ]
 });
 
 module.exports = withPWA(nextConfig);
