@@ -33,7 +33,9 @@ if (typeof window !== "undefined" && typeof console !== "undefined") {
 }
 
 // Shared cache instance for client-side persistence
-let sharedCache: NextSSRInMemoryCache | null = null;
+// NextSSRInMemoryCache is a class, so we need to use InstanceType to get the instance type
+type NextSSRInMemoryCacheInstance = InstanceType<typeof NextSSRInMemoryCache>;
+let sharedCache: NextSSRInMemoryCacheInstance | null = null;
 let cachePersistor: CachePersistor<unknown> | null = null;
 let persistorInitialized = false;
 
@@ -58,19 +60,18 @@ function getPossibleTypes() {
 }
 
 // Initialize cache persistor (client-side only)
-// @ts-ignore
-async function initializeCachePersistor(cache: NextSSRInMemoryCache, storeViewCode: string) {
+async function initializeCachePersistor(cache: NextSSRInMemoryCacheInstance, storeViewCode: string) {
   if (typeof window === "undefined" || persistorInitialized) {
     return;
   }
 
   try {
     const cacheKey = `${CACHE_PERSIST_PREFIX}-${storeViewCode || 'default'}`;
-    // @ts-ignore
+    // CachePersistor expects a normalized cache, NextSSRInMemoryCache extends InMemoryCache
+    // which is compatible with CachePersistor
     cachePersistor = new CachePersistor({
-      cache: cache as any, // Type assertion needed for compatibility
-      // @ts-ignore
-      storage: cacheStorage,
+      cache: cache as any, // Type assertion needed - NextSSRInMemoryCache is compatible but types don't match exactly
+      storage: cacheStorage as any, // cacheStorage matches the expected interface but types need assertion
       key: cacheKey,
       debug: process.env.NODE_ENV === "development",
       trigger: "write", // Persist on every write

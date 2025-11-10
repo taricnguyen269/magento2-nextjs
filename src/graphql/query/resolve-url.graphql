@@ -1,0 +1,41 @@
+query resolveURL($url: String!) {
+  route(url: $url) {
+    relative_url
+    redirect_code
+    type
+    ... on CmsPage {
+      identifier
+      meta_description
+      meta_keywords
+      meta_title
+      title
+      canonical_url
+      content_heading
+    }
+    ... on ProductInterface {
+      uid
+      sku
+      name
+      canonical_url
+      __typename
+    }
+    ... on CategoryTree {
+      uid
+      name
+      image
+      meta_title
+      meta_keywords
+      meta_description
+      canonical_url
+      url_path
+      url_key
+      breadcrumbs {
+        category_uid
+        category_name
+        category_url_path
+        category_level
+      }
+    }
+  }
+}
+
