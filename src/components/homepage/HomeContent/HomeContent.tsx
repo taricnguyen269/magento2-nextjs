@@ -1,18 +1,14 @@
-import { FC, useContext } from "react";
-import { HomeContext } from "@/context";
-import { RichContent } from "@/components";
-import styles from "./homeContent.module.css";
+import { FC } from "react";
 
 export interface HomeContentProps {}
 
+/**
+ * HomeContent component - CMS content is now rendered server-side in page.tsx
+ * This component is kept for backward compatibility but no longer renders CMS content
+ * The CMS content is rendered via RichContentServer in the Server Component
+ */
 export const HomeContent: FC<HomeContentProps> = () => {
-  const { cmsPageContent } = useContext(HomeContext);
-
-  return (
-    <div className={`${styles.root} home-page`}>
-      {cmsPageContent?.content && (
-        <RichContent html={cmsPageContent.content} />
-      )}
-    </div>
-  );
+  // CMS content is now rendered server-side in page.tsx
+  // This component is kept for any client-side features that might need it
+  return null;
 };
