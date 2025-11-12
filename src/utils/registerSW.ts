@@ -83,7 +83,7 @@ export function registerSW() {
   navigator.serviceWorker.addEventListener("message", (e) => {
     const { type, payload } = e.data || {};
     if (type) {
-      handleMessageFromSW(type, payload, e);
+      handleMessageFromSW(type, payload);
     }
   });
 
