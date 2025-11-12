@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-import { registerApolloClient } from "@apollo/experimental-nextjs-app-support/rsc";
+import { registerApolloClient } from "@apollo/client-integration-nextjs";
 
 export const { getClient } = registerApolloClient(() => {
   const uri: string = typeof window !== "undefined"
@@ -22,13 +22,7 @@ export const { getClient } = registerApolloClient(() => {
   let possibleTypes = {};
   try {
     if (typeof process !== 'undefined' && process.env.POSSIBLE_TYPES) {
-      const possibleTypesStr = process.env.POSSIBLE_TYPES;
-      // Handle both string and already-parsed object cases
-      if (typeof possibleTypesStr === 'string') {
-        possibleTypes = JSON.parse(possibleTypesStr);
-      } else if (typeof possibleTypesStr === 'object') {
-        possibleTypes = possibleTypesStr;
-      }
+      possibleTypes = JSON.parse(process.env.POSSIBLE_TYPES);
     }
   } catch (error) {
     console.warn('Failed to parse POSSIBLE_TYPES:', error);
