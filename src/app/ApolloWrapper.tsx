@@ -17,14 +17,17 @@ import { cacheStorage, CACHE_PERSIST_PREFIX } from "@/utils/cacheStorage";
 if (typeof window !== "undefined" && typeof console !== "undefined") {
   const originalError = console.error;
   console.error = (...args: any[]) => {
-    // Filter out Apollo Client connectToDevTools deprecation warnings
-    // Check if the error message contains the Apollo devtools warning
+    // Filter out Apollo Client connectToDevTools deprecation warnings and moment-timezone warnings
+    // Check if the error message contains the Apollo devtools warning or moment-timezone warning
     const errorString = JSON.stringify(args);
+    const firstArg = args[0]?.toString() || '';
     if (errorString.includes('connectToDevTools') ||
         errorString.includes('devtools.enabled') ||
         errorString.includes('go.apollo.dev/c/err') ||
-        (args[0] && typeof args[0] === 'string' && args[0].includes('connectToDevTools'))) {
-      return; // Suppress this specific warning
+        firstArg.includes('connectToDevTools') ||
+        firstArg.includes('Moment Timezone has no data for') ||
+        firstArg.includes('momentjs.com/timezone')) {
+      return; // Suppress these specific warnings
     }
     originalError.apply(console, args);
   };

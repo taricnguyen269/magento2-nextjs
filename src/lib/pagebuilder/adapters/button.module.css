@@ -1,0 +1,25 @@
+/* Button styles for PageBuilder compatibility */
+.root_highPriority {
+  @apply px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold;
+}
+
+.root_normalPriority {
+  @apply px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 font-medium;
+}
+
+.root_lowPriority {
+  @apply px-4 py-2 bg-transparent text-gray-600 rounded hover:bg-gray-100 font-normal;
+}
+
+.root_highPriorityNegative {
+  @apply px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-semibold;
+}
+
+.root_normalPriorityNegative {
+  @apply px-4 py-2 bg-red-200 text-red-800 rounded hover:bg-red-300 font-medium;
+}
+
+.root_lowPriorityNegative {
+  @apply px-4 py-2 bg-transparent text-red-600 rounded hover:bg-red-100 font-normal;
+}
+

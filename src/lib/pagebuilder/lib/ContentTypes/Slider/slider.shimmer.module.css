@@ -1,0 +1,5 @@
+.shimmerRoot {
+    composes: root_rectangle from './shimmer-placeholder.module.css';
+    composes: root from './slider.module.css';
+    display: block;
+}

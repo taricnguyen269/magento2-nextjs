@@ -8,7 +8,6 @@ import { clearToken } from "@/redux/userSlice";
 import { storage } from "@/utils/helper";
 import { usePathname } from "next/navigation";
 import { localStorageKeys } from "@/utils";
-import { MontserratFont } from "@/utils/fonts";
 
 export interface AppProps {
   children: ReactNode;
@@ -61,14 +60,7 @@ export const App: FC<AppProps> = ({ children }) => {
         pauseOnHover
         theme="light"
       />
-      <style jsx global>
-        {`
-          :root {
-            --font-montserrat: ${MontserratFont.style.fontFamily};
-          }
-        `}
-      </style>
-      <div className=" font-montserrat pt-20 min-h-[40.8rem]">{children}</div>
+      <div className="pt-20 min-h-[40.8rem]">{children}</div>
     </div>
   );
 };

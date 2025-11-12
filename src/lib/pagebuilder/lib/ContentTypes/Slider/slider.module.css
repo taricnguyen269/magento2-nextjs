@@ -1,0 +1,135 @@
+.root {
+    display: block;
+    position: relative;
+    touch-action: pan-y;
+    user-select: none;
+    --leftViewportElement: -99999px;
+}
+
+.root :global .swiper {
+    min-height: inherit;
+    width: 100%;
+    height: 100%;
+}
+
+.root :global .swiper-wrapper {
+    min-height: inherit;
+}
+
+.root :global .swiper-slide {
+    min-height: inherit;
+    display: flex;
+}
+
+.root :global .swiper-slide > div {
+    min-height: inherit;
+    width: 100%;
+}
+
+.root :global .swiper-slide img {
+    display: block;
+}
+
+.bannerRoot {
+    composes: root from '../Banner/banner.module.css';
+    min-height: inherit;
+}
+.bannerLink {
+    composes: link from '../Banner/banner.module.css';
+    min-height: inherit;
+}
+.bannerWrapper {
+    composes: wrapper from '../Banner/banner.module.css';
+    min-height: inherit;
+}
+.bannerPosterOverlay {
+    composes: posterOverlay from '../Banner/banner.module.css';
+    min-height: inherit;
+}
+
+/* Navigation arrows */
+.navigationPrev,
+.navigationNext {
+    background: rgba(252, 252, 252, 0.75);
+    border: none;
+    border-radius: 50px;
+    color: transparent;
+    cursor: pointer;
+    display: block;
+    font-size: 0;
+    height: 40px;
+    line-height: 0;
+    opacity: 1;
+    outline: none;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 40px;
+    z-index: 101;
+}
+
+.navigationPrev {
+    left: 1.6rem;
+}
+
+.navigationPrev::before {
+    content: url("data:image/svg+xml;charset=UTF-8, <svg xmlns='http://www.w3.org/2000/svg' width='32px' height='32px' viewBox='0 0 24 24' fill='none' stroke='black' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'><line x1='19' y1='12' x2='5' y2='12' /><polyline points='12 19 5 12 12 5' /></svg>");
+}
+
+.navigationNext {
+    right: 1.6rem;
+}
+
+.navigationNext::before {
+    content: url("data:image/svg+xml;charset=UTF-8, <svg xmlns='http://www.w3.org/2000/svg' width='32px' height='32px' viewBox='0 0 24 24' fill='none' stroke='black' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'><line x1='5' y1='12' x2='19' y2='12' /><polyline points='12 5 19 12 12 19' /></svg>");
+}
+
+.navigationPrev:focus-visible,
+.navigationNext:focus-visible {
+    outline: auto;
+    outline: -webkit-focus-ring-color auto 1px;
+}
+
+/* Pagination dots */
+.root :global .swiper-pagination {
+    display: block;
+    margin: 0;
+    padding: 20px 0 18px 0;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    bottom: auto;
+}
+
+.root :global .swiper-pagination-bullet {
+    background: rgb(var(--venia-global-color-gray-dark));
+    filter: brightness(100%);
+    border-radius: 10px;
+    box-shadow: none;
+    cursor: pointer;
+    display: inline-block;
+    height: 15px;
+    margin: 0 6px;
+    padding: 0;
+    position: relative;
+    vertical-align: middle;
+    width: 15px;
+    opacity: 1;
+}
+
+.root :global .swiper-pagination-bullet:hover {
+    filter: brightness(80%);
+}
+
+.root :global .swiper-pagination-bullet:focus {
+    outline: 1px solid;
+}
+
+.root :global .swiper-pagination-bullet-active {
+    background: #1c1918;
+}
+
+.root :global .swiper-slide-active {
+    z-index: 1;
+}

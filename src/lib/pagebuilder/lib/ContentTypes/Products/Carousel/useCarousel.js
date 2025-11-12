@@ -1,0 +1,25 @@
+import { useQuery } from '@apollo/client';
+
+import { useCustomerWishlistSkus } from '../../../../adapters/useCustomerWishlistSkus';
+
+import mergeOperations from '../../../../adapters/shallowMerge';
+import defaultOperations from './carousel.gql';
+
+/**
+ * This is a duplicate of @magento/peregrine/lib/talons/Gallery/useGallery.js
+ */
+export const useCarousel = (props = {}) => {
+    const operations = mergeOperations(defaultOperations, props.operations);
+
+    useCustomerWishlistSkus();
+
+    const { data: storeConfigData } = useQuery(operations.getStoreConfigQuery, {
+        fetchPolicy: 'cache-and-network'
+    });
+
+    const storeConfig = storeConfigData ? storeConfigData.storeConfig : null;
+
+    return {
+        storeConfig
+    };
+};

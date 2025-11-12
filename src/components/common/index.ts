@@ -31,3 +31,8 @@ export * from "./EmptyCart";
 export * from "./NotFound";
 export * from "./PageNotFound";
 export * from "./ServiceWorkerRegistration";
+export * from "./RichContent";
+export { default as CountdownTimer } from "../CountdownTimer";
+export { default as SwiperButton } from "../SwiperButton";
+export { StarRating } from "../GoogleReviews";
+export { default as RecommendationContainer } from "../RecommendationContainer";

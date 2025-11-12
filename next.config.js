@@ -16,7 +16,7 @@ let storeConfigPromise = null;
 const nextConfig = {
   reactStrictMode: true,
   compiler: {
-    removeConsole: process.env.NODE_ENV !== "development", // Remove console.log in production
+    removeConsole: process.env.NODE_ENV !== "development",
   },
   async rewrites() {
     const rewrites = [];
@@ -38,6 +38,7 @@ const nextConfig = {
     PAYPAL_CANCEL_URL: process.env.PAYPAL_CANCEL_URL || "",
     STORE_VIEW_CODE: process.env.STORE_VIEW_CODE || "",
     NEXT_PUBLIC_STORE_VIEW_CODE: process.env.STORE_VIEW_CODE || "",
+    NEXT_PUBLIC_INTERNAL_DOMAINS: process.env.INTERNAL_DOMAINS || "pwa-stg.arielbath.com,pwa.arielbath.com,arielbath.com,www.arielbath.com",
   },
   images: {
     remotePatterns: [
@@ -56,10 +57,7 @@ const nextConfig = {
     ],
   },
   webpack: (config, { isServer, webpack }) => {
-    // Get possibleTypes from GraphQL schema at build time
-    // Use cached result if available, otherwise use empty object (non-blocking)
-    // The async fetch happens in the background and will be available on next build
-    console.log('isServer', isServer);
+    // Get possibleTypes from GraphQL schema at build time (cached to avoid multiple fetches)
     let possibleTypes = cachedPossibleTypes || {};
 
     // Start async fetch in background if not already started
@@ -68,7 +66,6 @@ const nextConfig = {
         try {
           const result = await getPossibleTypes();
           cachedPossibleTypes = result;
-          console.log('✓ Fetched possibleTypes from GraphQL schema');
           return result;
         } catch (error) {
           console.warn('⚠ Could not fetch possibleTypes:', error.message);
@@ -88,7 +85,6 @@ const nextConfig = {
           const result = await getStoreConfig();
           cachedStoreConfig = result.storeConfig;
           cachedAvailableStores = result.availableStores || [];
-          console.log('✓ Fetched store config from GraphQL');
           return result;
         } catch (error) {
           console.warn('⚠ Could not fetch store config:', error.message);
@@ -96,6 +92,22 @@ const nextConfig = {
           return { storeConfig: null, availableStores: [] };
         }
       })();
+    }
+
+    // Add webpack aliases for PWA Studio dependencies (client-side only)
+    if (!isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@magento/peregrine/lib/util/resolveLinkProps': require.resolve('./src/lib/pagebuilder/adapters/resolveLinkProps.ts'),
+        '@magento/peregrine/lib/util/makeUrl': require.resolve('./src/lib/pagebuilder/adapters/makeUrl.ts'),
+        '@magento/peregrine/lib/hooks/useIntersectionObserver': require.resolve('./src/lib/pagebuilder/adapters/peregrine-hooks.ts'),
+        '@magento/peregrine/lib/hooks/useMediaQuery': require.resolve('./src/lib/pagebuilder/adapters/peregrine-hooks.ts'),
+        '@magento/peregrine/lib/hooks/useDetectScrollWidth': require.resolve('./src/lib/pagebuilder/adapters/peregrine-hooks.ts'),
+        '@magento/venia-ui/lib/classify': require.resolve('./src/lib/pagebuilder/adapters/classify.ts'),
+        '@magento/venia-ui/lib/components/Button/button': require.resolve('./src/lib/pagebuilder/adapters/Button.tsx'),
+        '@magento/pagebuilder/lib/handleHtmlContentClick': require.resolve('./src/lib/pagebuilder/adapters/handleHtmlContentClick.ts'),
+        'react-router-dom': require.resolve('./src/lib/pagebuilder/adapters/react-router-dom.tsx'),
+      };
     }
 
     // Add GraphQL loader
@@ -109,24 +121,48 @@ const nextConfig = {
       ],
     });
 
-    // Prepare store config values for DefinePlugin
-    const possibleTypesJson = JSON.stringify(possibleTypes);
-    const storeConfigJson = JSON.stringify(storeConfigData);
+    // Configure CSS Modules to allow pure :global selectors and custom class name format
+    const cssRules = config.module.rules.find(
+      (rule) => rule.oneOf
+    );
+    if (cssRules && cssRules.oneOf) {
+      cssRules.oneOf.forEach((rule) => {
+        if (rule.use && Array.isArray(rule.use)) {
+          rule.use.forEach((use) => {
+            if (use.loader && use.loader.includes('css-loader') && use.options && use.options.modules) {
+              use.options.modules.mode = 'local';
+              use.options.modules.exportGlobals = true;
+              
+              // Custom class name format: [fileName]-[localName]-[hash]
+              use.options.modules.getLocalIdent = (context, localIdentName, localName) => {
+                const match = context.resourcePath.match(/([^/\\]+)\.module\.css$/);
+                const fileName = match?.[1] || 'module';
+                const hash = require('crypto')
+                  .createHash('md5')
+                  .update(context.resourcePath + localName)
+                  .digest('base64')
+                  .substring(0, 4)
+                  .replace(/[+/=]/g, '')
+                  .replace(/[^a-zA-Z0-9]/g, '');
+                const finalHash = hash.length >= 3 ? hash.substring(0, 3) : hash.padEnd(3, '0');
+                return `${fileName}-${localName}-${finalHash}`;
+              };
+            }
+          });
+        }
+      });
+    }
 
-    // Add DefinePlugin to inject possibleTypes and store config
+    // Inject possibleTypes and store config via DefinePlugin
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env.POSSIBLE_TYPES': possibleTypesJson,
-        'process.env.STORE_CONFIG_DATA': storeConfigJson
+        'process.env.POSSIBLE_TYPES': JSON.stringify(possibleTypes),
+        'process.env.STORE_CONFIG_DATA': JSON.stringify(storeConfigData)
       })
     );
 
     return config;
   },
-  // Note: Turbopack doesn't support custom loaders for GraphQL files yet
-  // Use webpack for dev mode: npm run dev -- --webpack
-  // Or use Turbopack with raw-loader as a workaround
-  turbopack: {},
 };
 
 const withPWA = require("next-pwa")({
@@ -152,10 +188,7 @@ const withPWA = require("next-pwa")({
       },
     },
     {
-      // Route for all JS files and bundles. This route uses CacheFirst
-      // strategy because if the file contents change, the file name will
-      // change. There is no point in using StaleWhileRevalidate for JS files.
-      // Similar to pwa-arielbath registerRoutes.js
+      // JS files: CacheFirst (file names change when content changes)
       urlPattern: /\.js$/i,
       handler: "CacheFirst",
       options: {
@@ -166,8 +199,7 @@ const withPWA = require("next-pwa")({
       },
     },
     {
-      // Route for CSS files. Uses CacheFirst strategy similar to JS files
-      // because if the file contents change, the file name will change.
+      // CSS files: CacheFirst (file names change when content changes)
       urlPattern: /\.(?:css|less)$/i,
       handler: "CacheFirst",
       options: {
@@ -178,16 +210,17 @@ const withPWA = require("next-pwa")({
       },
     },
     {
-      // Route for Next.js optimized images via /_next/image
-      // These are optimized images served through Next.js Image Optimization API
+      // CDN images from arielbath.com domains (must come before generic image pattern)
       urlPattern: ({ url }) => {
-        return url.pathname === '/_next/image' && url.search.includes('url=');
+        const cdnDomains = ['cdn-stg.arielbath.com', 'cdn.arielbath.com', 'arielbath.com'];
+        const isImageExtension = /\.(?:png|gif|jpg|jpeg|svg|webp)$/i.test(url.pathname);
+        return cdnDomains.some(domain => url.hostname === domain) && isImageExtension;
       },
       handler: "CacheFirst",
       options: {
-        cacheName: "next-images",
+        cacheName: "cdn-images",
         expiration: {
-          maxEntries: 120, // MAX_NUM_OF_IMAGES_TO_CACHE
+          maxEntries: 200,
           maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
         },
         cacheableResponse: {
@@ -196,14 +229,32 @@ const withPWA = require("next-pwa")({
       },
     },
     {
-      // Route for direct image files (png, gif, jpg, jpeg, svg, webp)
-      // This handles images that are not optimized through Next.js
-      urlPattern: /\.(?:png|gif|jpg|jpeg|svg|webp)$/i,
+      // Next.js optimized images via /_next/image
+      urlPattern: ({ url }) => {
+        return url.pathname === '/_next/image' && url.search.includes('url=');
+      },
+      handler: "CacheFirst",
+      options: {
+        cacheName: "next-images",
+        expiration: {
+          maxEntries: 120,
+          maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
+        },
+        cacheableResponse: {
+          statuses: [0, 200],
+        },
+      },
+    },
+    {
+      // Direct image files (png, gif, jpg, jpeg, svg, webp) - matches pathname before query params
+      urlPattern: ({ url }) => {
+        return /\.(?:png|gif|jpg|jpeg|svg|webp)$/i.test(url.pathname);
+      },
       handler: "CacheFirst",
       options: {
         cacheName: "images",
         expiration: {
-          maxEntries: 120, // MAX_NUM_OF_IMAGES_TO_CACHE
+          maxEntries: 120,
           maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
         },
         cacheableResponse: {

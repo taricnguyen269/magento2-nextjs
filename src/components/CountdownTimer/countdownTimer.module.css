@@ -1,0 +1,66 @@
+.root {
+    background-color: #f6f6f6;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.eventName {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.clockContainer {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.clock {
+    color: #343538;
+    font-size: 0.625rem;
+    line-height: 0.875rem;
+    margin: 0 0.625rem;
+}
+
+.value {
+    background-color: #3f3f3f;
+    border-radius: 50%;
+    color: #fff;
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    height: 32px;
+    letter-spacing: 1px;
+    line-height: 32px;
+    margin-bottom: 4px;
+    text-align: center;
+    width: 32px;
+}
+
+@media (min-width: 1024px) {
+    .root {
+        padding: 1.5rem;
+    }
+
+    .eventName {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .clock {
+        font-size: 1rem;
+        margin: 0 1rem;
+    }
+
+    .value {
+        font-size: 2rem;
+        width: 3.75rem;
+        height: 3.75rem;
+        line-height: 3.75rem;
+        margin-bottom: 0.75rem;
+    }
+}
+

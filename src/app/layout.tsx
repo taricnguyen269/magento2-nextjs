@@ -3,6 +3,7 @@ import { App } from "@/container";
 import { FullPageLoading } from "@/components";
 import { ApolloWrapper } from "@/app/ApolloWrapper";
 import { Footer, Header, ServiceWorkerRegistration } from "@/components";
+import { GothamNarrowFont } from "@/utils/fonts";
 
 import { RootContextProvider } from "@/context/rootContextProvider";
 import { Suspense } from "react";
@@ -36,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={GothamNarrowFont.variable}>
       <body className={"bg-white"} suppressHydrationWarning>
         <ApolloWrapper>
           <ReduxProvider>

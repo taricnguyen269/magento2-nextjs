@@ -1,0 +1,106 @@
+.items {
+    display: grid;
+    column-gap: 0.5rem;
+    grid-template-columns: repeat(2, 44vw);
+    overflow-x: hidden;
+}
+
+.grid {
+    display: grid !important;
+    column-gap: 1.5rem;
+    row-gap: 1.875rem;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.itemsWithSwiper {
+    position: relative;
+}
+
+.sliderArrows {
+    position: absolute;
+    top: -82px;
+    right: 16px;
+    z-index: 10;
+}
+
+@media (max-width: 1023px) {
+    .items {
+        padding-inline: 16px;
+        position: relative;
+        left: -1rem;
+        width: calc(100vw - 1rem);
+        grid-template-columns: repeat(2, 42vw);
+        column-gap: 8px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 0.75rem;
+    }
+
+    .itemsWithSwiper {
+        padding: 0;
+    }
+
+    .itemsWithSwiper :global .swiper {
+        padding: 0 16px 28px;
+        width: calc(100% + 1rem);
+    }
+
+    .itemsWithSwiper :global .swiper-slide {
+        width: 42vw;
+    }
+
+    .itemsWithSwiper :global .swiper-slide:not(:last-child) {
+        margin-right: 8px;
+    }
+
+    .itemsWithSwiper :global .swiper-scrollbar {
+        background-color: transparent;
+        bottom: 0 !important;
+        height: 2px !important;
+        left: 1rem !important;
+        width: calc(100% - 2rem) !important;
+    }
+
+    .itemsWithSwiper :global .swiper-scrollbar-drag {
+        background-color: #232323;
+    }
+}
+
+@media (min-width: 1024px) {
+    .items {
+        padding-inline: 4px;
+    }
+
+    .itemsWithSwiper {
+        position: relative;
+    }
+}
+
+@media (min-width: 990px) and (max-width: 1023px) {
+    .items {
+        column-gap: 1.5rem;
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .itemsWithSwiper {
+        left: -16px;
+        width: calc(100% + 8px);
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1365px) {
+    .items {
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 1rem;
+    }
+}
+
+@media (min-width: 1366px) {
+    .items {
+        grid-template-columns: repeat(5, 1fr);
+        column-gap: 1rem;
+    }
+}
+

@@ -1,0 +1,66 @@
+.starRatingContainer {
+    background-color: #ffffff;
+    border-radius: 100px;
+    padding: 4px 12px;
+}
+
+.starRating {
+    width: fit-content;
+    position: relative;
+}
+
+.emptyStarContainer,
+.filledStarContainer {
+    display: flex;
+    gap: 2px;
+    overflow: hidden;
+}
+
+.filledStarContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.starContainer {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.starEmpty,
+.starFilled {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.starEmpty {
+    fill: #ccc;
+}
+
+.starFilled {
+    fill: black;
+}
+
+@media (max-width: 640px) {
+    .starRatingContainer {
+        padding: 4px;
+    }
+
+    .starContainer {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@media only screen and (max-width: 389px) {
+    .starContainer {
+        width: 8px;
+        height: 8px;
+    }
+}
+

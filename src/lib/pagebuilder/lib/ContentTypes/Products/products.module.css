@@ -1,0 +1,58 @@
+.root {
+}
+.root a {
+    text-decoration: none;
+}
+
+.error {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.centerMode {
+}
+
+.centerMode :global .swiper-slide {
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+.centerMode :global .swiper-slide:hover {
+    opacity: 1;
+}
+
+.centerMode :global .swiper-slide-active {
+    opacity: 1;
+}
+
+.galleryItems {
+    /* Gallery items styling - placeholder */
+    grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 640px) {
+    .galleryItems {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .centerModeSmall {
+    }
+
+    .centerModeSmall :global .swiper-slide {
+        opacity: 0.5;
+        transition: 0.3s;
+    }
+
+    .centerModeSmall :global .swiper-slide:hover {
+        opacity: 1;
+    }
+
+    .centerModeSmall :global .swiper-slide-active {
+        opacity: 1;
+    }
+}
+
+.carousel {
+    composes: root;
+    composes: root from '../Slider/slider.module.css';
+}

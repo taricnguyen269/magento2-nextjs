@@ -7,3 +7,5 @@ export * from "./useDisclosure";
 export * from "./useResolveUrl";
 export * from "./useWishlist";
 export * from "./useStoreConfig";
+export * from "./useFormatDate";
+export { default as useBreakPoint } from "./useBreakPoint";

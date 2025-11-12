@@ -1,0 +1,108 @@
+.root p {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.root p:last-child {
+    margin-bottom: 0;
+}
+
+.root img {
+    max-width: 100%;
+    margin: 0;
+}
+
+.root :global .width-100 img {
+    width: 100%;
+}
+
+.root ol,
+.root ul {
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.root p + ol,
+.root p + ul {
+    margin-top: 0;
+}
+
+/* TODO @TW: cannot compose */
+.root ol {
+    /* composes: list-decimal from global; */
+    list-style-type: decimal;
+}
+
+/* TODO @TW: cannot compose */
+.root ul {
+    /* composes: list-disc from global; */
+    list-style-type: disc;
+}
+
+.root blockquote {
+    margin: 1rem 0;
+    font-size: 1.25rem;
+    font-style: italic;
+}
+
+.root table {
+    width: 100%;
+    text-align: left;
+}
+
+.root pre {
+    padding: 1rem;
+    /* composes: border from global; */
+    /* composes: border-solid from global; */
+    /* composes: border-subtle from global; */
+    border: 1px solid #e5e7eb;
+    /* composes: bg-gray-900 from global; */
+    background: #f3f4f6;
+}
+
+.root :global .cms-content-important {
+    padding: 1rem;
+    /* composes: border from global; */
+    /* composes: border-solid from global; */
+    /* composes: border-subtle from global; */
+    border: 1px solid #e5e7eb;
+    /* composes: bg-gray-900 from global; */
+    background: #f3f4f6;
+    font-size: 1.125rem;
+}
+
+:global .cms-happening-now .pagebuilder-column img,
+:global .cms-happening-now .pagebuilder-column figure > div {
+    aspect-ratio: 850 / 420;
+    width: 100% !important;
+    height: auto !important;
+}
+
+:global .gallery_banner_carousel .pagebuilder-column img,
+:global .gallery_banner_carousel .pagebuilder-column figure > div {
+    aspect-ratio: 850 / 420;
+    width: 100% !important;
+    height: auto !important;
+}
+
+:global .d-none {
+    display: none;
+}
+
+:global .cms-product-recommendation:not(.show) {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+:global .cms-product-recommendation:not(.show) h2 {
+    display: none !important;
+}
+
+@media screen and (max-width: 1023px) {
+    :global .mb_hidden {
+        display: none !important;
+    }
+}
+

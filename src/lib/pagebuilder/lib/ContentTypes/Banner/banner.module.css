@@ -1,0 +1,241 @@
+.root,
+.wrapper {
+    aspect-ratio: 375 / 500;
+}
+
+.root {
+    :global {
+        div[id*='jarallax-container'] {
+            left: -1px !important;
+            right: -3px !important;
+            width: auto !important;
+
+            video,
+            iframe,
+            img {
+                margin: auto !important;
+                transform: none !important;
+            }
+
+            img {
+                width: 100% !important;
+                height: 100% !important;
+            }
+        }
+    }
+}
+
+a.link {
+    text-decoration: none;
+}
+.wrapper {
+    position: relative !important;
+    background-clip: padding-box;
+    border-radius: inherit;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.overlay {
+    transition: background-color 500ms ease;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    max-width: 540px;
+    padding: 1rem;
+    z-index: 1;
+
+    h2 {
+        @apply font-sans;
+        margin-block: 0 1rem;
+        font-size: 32px !important;
+        line-height: 36px;
+    }
+    p {
+        font-size: 1rem;
+    }
+    strong {
+        font-weight: 600;
+    }
+}
+
+.videoOverlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+}
+
+.viewportElement {
+    height: 100%;
+    width: 1px;
+    position: absolute;
+    left: var(--leftViewportElement);
+    top: 0;
+    z-index: -100;
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
+.lcpImage {
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.content {
+    min-height: 50px;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    height: 100%;
+
+    p {
+        margin-bottom: 0;
+        &:empty {
+            display: none;
+        }
+    }
+}
+.button {
+    margin-top: 1.5rem;
+    max-width: 100%;
+    text-align: inherit;
+    transition: opacity 500ms ease;
+    word-break: break-word;
+    width: 100%;
+
+    button {
+        padding: 4px 1rem;
+        pointer-events: none;
+
+        span {
+            font-size: 1rem;
+        }
+
+        &::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-image: url('/icons-svg/ic-link-arrow-right.svg');
+            margin-left: 8px;
+        }
+
+        &[class^='button-root_normalPriority'] {
+            background-color: white;
+            &::after {
+                filter: invert(1);
+            }
+        }
+    }
+}
+.root:hover .buttonHover {
+    opacity: 1;
+}
+.buttonHover {
+    composes: button;
+    opacity: 0;
+}
+.posterOverlay {
+    composes: overlay;
+    align-content: center;
+    justify-content: center;
+}
+.posterOverlayHover {
+    composes: posterOverlay;
+    background-color: transparent !important;
+}
+.collageLeftOverlay {
+    composes: overlay;
+    margin-right: auto;
+}
+.collageLeftOverlayHover {
+    composes: collageLeftOverlay;
+    background-color: transparent !important;
+}
+.collageCenteredOverlay {
+    composes: overlay;
+    margin-inline: auto;
+    max-width: 540px;
+    text-align: center;
+}
+.collageCenteredOverlayHover {
+    composes: collageCenteredOverlay;
+    background-color: transparent !important;
+}
+.collageRightOverlay {
+    composes: overlay;
+    margin-left: auto;
+    max-width: 540px;
+}
+.collageRightOverlayHover {
+    composes: collageRightOverlay;
+    background-color: transparent !important;
+}
+
+@media screen(-md) {
+    .root {
+        :global {
+            div[id*='jarallax-container'] {
+                iframe {
+                    width: 100% !important;
+                }
+            }
+        }
+    }
+    .collageRightOverlay {
+        text-align: right;
+    }
+}
+
+@media screen(md) {
+    .root,
+    .wrapper {
+        aspect-ratio: 1680 / 600 !important;
+    }
+
+    .overlay {
+        padding-inline: 4vw;
+        padding-block: 2rem;
+        max-width: 40vw;
+
+        h2 {
+            font-size: 48px !important;
+            line-height: 48px;
+        }
+        p {
+            font-size: 20px;
+        }
+    }
+    .button {
+        margin-top: 2rem;
+
+        button {
+            padding: 10px 1rem;
+        }
+    }
+}
+
+@media screen(3xl) {
+    .overlay {
+        padding-block: 80px;
+        padding-inline: calc((120 / 1400) * 100vw);
+        max-width: calc((540 / 1400) * 100vw);
+
+        h2 {
+            line-height: 64px;
+        }
+    }
+
+    .collageCenteredOverlay {
+        padding-block: 40px;
+    }
+
+    .button {
+        margin-top: 3rem;
+    }
+}

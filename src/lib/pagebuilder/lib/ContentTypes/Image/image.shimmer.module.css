@@ -1,0 +1,5 @@
+.shimmerRoot {
+    composes: root_rectangle from './shimmer-placeholder.module.css';
+    composes: root img from './image.module.css';
+    margin: 1rem 0;
+}

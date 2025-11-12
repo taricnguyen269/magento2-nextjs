@@ -60,13 +60,19 @@ export const ProductCard: FC<ProductCardProps> = ({
           role="button"
           onClick={() => router.push(`/${product?.url_key || ""}`)}
         >
-          <Image
-            className="hover:scale-110 duration-500 h-72 object-contain"
-            width={1000}
-            height={1000}
-            src={product?.small_image?.url ?? ""}
-            alt={product?.name ?? "shoes"}
-          />
+          {product?.small_image?.url ? (
+            <Image
+              className="hover:scale-110 duration-500 h-72 object-contain"
+              width={1000}
+              height={1000}
+              src={product.small_image.url}
+              alt={product?.name ?? "shoes"}
+            />
+          ) : (
+            <div className="h-72 bg-gray-200 flex items-center justify-center">
+              <span className="text-gray-400">No Image</span>
+            </div>
+          )}
         </figure>
         <div className="card-body">
           <div className="flex flex-col gap-2">
