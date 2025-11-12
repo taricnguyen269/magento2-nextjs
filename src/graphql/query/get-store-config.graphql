@@ -1,0 +1,24 @@
+query getStoreConfigData {
+  storeConfig {
+    baseLinkUrl: base_link_url
+    category_url_suffix
+    code
+    configurable_thumbnail_source
+    cms_home_page
+    defaultDescription: default_description
+    defaultKeywords: default_keywords
+    defaultTitle: default_title
+    locale
+    product_url_suffix
+    root_category_uid
+    secure_base_media_url
+    store_code
+    store_name
+    timezone
+    titlePrefix: title_prefix
+    titleSuffix: title_suffix
+    headIncludes: head_includes
+    paymentServiceMode: payment_service_mode
+  }
+}
+
